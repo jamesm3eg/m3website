@@ -1,26 +1,30 @@
 #!/usr/bin/env bash
 #
-# Downloads the photographs this site currently pulls from the old WordPress
+# Downloads the photographs this site still pulls from the old WordPress
 # install, saves them into assets/img/, and rewrites the HTML to point there.
 #
-# Run it once from the repository root:
+# Run once from the repository root:
 #
 #     bash localise-images.sh
 #
-# Afterwards the site no longer depends on m3eg.com being online, which
-# matters the moment you switch the domain over to GitHub Pages.
+# After this the site no longer depends on m3eg.com being online, which matters
+# the moment you point the domain at GitHub Pages.
+#
+# The logo and the CCTV photograph are already local and are not touched.
 #
 # Requires: curl (preinstalled on macOS and most Linux; on Windows use Git Bash).
 
 set -uo pipefail
 
 BASE="https://m3eg.com/wp-content/uploads"
-PREFIX_RE="https://m3eg\\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/"
-
 mkdir -p assets/img
 
 FILES=(
-  "2023/06/home-gallery-02-scaled.jpg"
+  "2023/06/home-gallery-01-scaled.jpg"
+  "2023/06/home-gallery-03-scaled.jpg"
+  "2023/06/home-gallery-08.jpg"
+  "2023/06/home-gallery-12.jpg"
+  "2023/06/home-gallery-13.jpg"
   "2023/06/service-constrution.jpeg"
   "2023/06/service-stormwater.jpeg"
   "2023/06/service-stream.jpeg"
@@ -75,28 +79,19 @@ fi
 
 echo
 echo "Rewriting image references..."
-
-# Pages at the repository root point straight at assets/img/.
-# Pages one directory down (key-staff/) need ../assets/img/ instead, so the
-# two depths are rewritten separately. macOS sed and GNU sed disagree about
-# -i, so each file is written via a temp file.
-rewrite () {   # $1 = file, $2 = replacement prefix
-  sed -E "s#${PREFIX_RE}#$2#g" "$1" > "$1.tmp" && mv "$1.tmp" "$1"
-  printf '  %s\n' "$1"
-}
-
+# Pages at the repository root use assets/img/. Pages one directory down
+# (key-staff/) need ../assets/img/ or they resolve one level too deep.
 for html in ./*.html; do
-  [ -e "$html" ] || continue
-  rewrite "$html" "assets/img/"
+  sed -E "s#https://m3eg\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/#assets/img/#g" \
+    "$html" > "$html.tmp" && mv "$html.tmp" "$html"
 done
-
 for html in ./*/*.html; do
   [ -e "$html" ] || continue
-  rewrite "$html" "../assets/img/"
+  sed -E "s#https://m3eg\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/#../assets/img/#g" \
+    "$html" > "$html.tmp" && mv "$html.tmp" "$html"
 done
 
-echo
 echo "Done. Review with 'git diff', then commit."
 echo
-echo "Note: the gallery images on company.html use empty alt=\"\" attributes."
-echo "Add real descriptions for accessibility and image search."
+echo "Note: gallery and slider images carry empty alt=\"\" attributes."
+echo "Add real descriptions in company.html and index.html."

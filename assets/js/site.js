@@ -86,6 +86,116 @@
     navGroup.addEventListener('mouseleave', function () { setNav(false); });
   }
 
+  /* --- Field slider ---------------------------------------------------- */
+  var rail = document.querySelector('[data-rail]');
+
+  if (rail) {
+    var track = rail.querySelector('[data-rail-track]');
+    var slides = track.querySelectorAll('.rail__slide');
+    var prev = rail.querySelector('[data-rail-prev]');
+    var next = rail.querySelector('[data-rail-next]');
+    var toggle = rail.querySelector('[data-rail-toggle]');
+    var bar = rail.querySelector('[data-rail-bar]');
+    var idxOut = rail.querySelector('[data-rail-index]');
+    var total = slides.length;
+
+    var step = function () {
+      if (slides.length < 2) { return track.clientWidth; }
+      return slides[1].offsetLeft - slides[0].offsetLeft;
+    };
+    var maxScroll = function () {
+      return Math.max(1, track.scrollWidth - track.clientWidth);
+    };
+
+    // Keep the readout, meter and button states in sync with actual scroll
+    // position, whatever caused it: buttons, swipe, trackpad or keyboard.
+    var sync = function () {
+      var x = track.scrollLeft;
+      var max = maxScroll();
+      var i = Math.min(total - 1, Math.round(x / step()));
+
+      if (idxOut) { idxOut.textContent = ('0' + (i + 1)).slice(-2); }
+      if (bar) {
+        var visible = Math.min(1, track.clientWidth / track.scrollWidth);
+        bar.style.width = (visible * 100) + '%';
+        bar.style.transform = 'translateX(' + (x / max) * ((1 / visible) - 1) * 100 + '%)';
+      }
+      if (prev) { prev.disabled = x <= 2; }
+      if (next) { next.disabled = x >= max - 2; }
+    };
+
+    var ticking = false;
+    track.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(function () { sync(); ticking = false; });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', sync);
+
+    var go = function (dir) {
+      var max = maxScroll();
+      var target = track.scrollLeft + dir * step();
+      // Wrap around rather than dead-ending, so autoplay can loop.
+      if (dir > 0 && track.scrollLeft >= max - 2) { target = 0; }
+      if (dir < 0 && track.scrollLeft <= 2) { target = max; }
+      track.scrollTo({ left: target, behavior: reduced ? 'auto' : 'smooth' });
+    };
+
+    if (prev) { prev.addEventListener('click', function () { go(-1); stop(); }); }
+    if (next) { next.addEventListener('click', function () { go(1); stop(); }); }
+
+    /* Autoplay. Off entirely under reduced-motion, paused while the visitor is
+       hovering, focused inside, or touching, and stoppable with a button -
+       WCAG 2.2.2 requires moving content to be pausable. */
+    var timer = null;
+    var userStopped = false;
+
+    var start = function () {
+      if (reduced || userStopped || timer) { return; }
+      timer = window.setInterval(function () { go(1); }, 5500);
+      if (toggle) { toggle.setAttribute('aria-pressed', 'false'); }
+    };
+    var pause = function () {
+      if (timer) { window.clearInterval(timer); timer = null; }
+    };
+    function stop() {
+      userStopped = true;
+      pause();
+      if (toggle) { toggle.setAttribute('aria-pressed', 'true'); }
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        if (timer) {
+          stop();
+        } else {
+          userStopped = false;
+          start();
+        }
+      });
+    }
+
+    rail.addEventListener('mouseenter', pause);
+    rail.addEventListener('mouseleave', function () { if (!userStopped) { start(); } });
+    rail.addEventListener('focusin', pause);
+    rail.addEventListener('focusout', function () { if (!userStopped) { start(); } });
+    track.addEventListener('pointerdown', stop);
+
+    // Only run autoplay while the section is actually on screen.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { start(); } else { pause(); }
+        });
+      }, { threshold: 0.35 }).observe(rail);
+    } else {
+      start();
+    }
+
+    sync();
+  }
+
   /* --- Project index filter -------------------------------------------- */
   var filterBar = document.querySelector('[data-filters]');
 
@@ -117,6 +227,9 @@
       if (btn) { apply(btn.getAttribute('data-filter')); }
     });
 
-    apply('all');
+    // Allow deep links such as projects.html?discipline=stormwater
+    var valid = buttons.map(function (b) { return b.getAttribute('data-filter'); });
+    var want = new URLSearchParams(window.location.search).get('discipline');
+    apply(valid.indexOf(want) > -1 ? want : 'all');
   }
 })();

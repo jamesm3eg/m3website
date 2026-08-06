@@ -483,12 +483,12 @@ p { text-wrap: pretty; }
   border-top: var(--rule-dark);
   padding-inline: var(--gutter);
 }
-@media (min-width: 780px) { .stations { display: block; } }
+@media (min-width: 1060px) { .stations { display: block; } }
 .stations__inner {
   max-width: var(--shell);
   margin-inline: auto;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 }
 .stations__inner span {
   font-family: var(--mono);
@@ -1248,83 +1248,201 @@ p { text-wrap: pretty; }
 .drawer__sub a:hover,
 .drawer__sub a[aria-current="page"] { color: var(--flow-lift); }
 
-/* --- 26. Staff biographies --------------------------------------------- */
+/* --- 26. Field slider ---------------------------------------------------
+   Built on native CSS scroll-snap, so it is swipeable and scrollable with
+   JavaScript disabled. The buttons and autoplay are enhancements on top. */
 
-.bio {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  grid-template-columns: 1fr;
-  padding-block: clamp(2.5rem, 5vw, 4rem);
-  border-bottom: var(--rule);
+.rail { margin-top: clamp(2rem, 4vw, 3rem); }
+/* When the rail follows a section head, that head's margin is enough. */
+.shell + .rail { margin-top: 0; }
+
+.rail__viewport {
+  display: flex;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-inline: var(--gutter);
+  scroll-padding-left: var(--gutter);
+  scrollbar-width: none;              /* Firefox */
+  -ms-overflow-style: none;           /* old Edge */
 }
-.bio:first-of-type { padding-top: 0; }
-.bio:last-of-type { border-bottom: 0; padding-bottom: 0; }
-@media (min-width: 860px) {
-  .bio { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); align-items: start; }
+.rail__viewport::-webkit-scrollbar { display: none; }
+.rail__viewport:focus-visible { outline-offset: -3px; }
+
+.rail__slide {
+  margin: 0;
+  flex: 0 0 auto;
+  width: min(86vw, 680px);
+  scroll-snap-align: start;
+  background: var(--slate);
+  overflow: hidden;
 }
-.bio__media img {
+@media (min-width: 900px) { .rail__slide { width: min(46vw, 620px); } }
+
+.rail__slide img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  background: var(--paper-warm);
-  filter: grayscale(1) contrast(1.05);
-  transition: filter 600ms var(--ease);
 }
-.bio:hover .bio__media img { filter: grayscale(0); }
 
-.bio__role {
-  display: block;
+/* Controls read like the axis of a profile chart */
+.rail__controls {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: 1.75rem;
+}
+
+.rail__meter {
+  flex: 1 1 auto;
+  height: 2px;
+  background: var(--slate-lift);
+  position: relative;
+}
+.rail__meter span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 12%;
+  background: var(--flow-lift);
+  transition: width 300ms var(--ease);
+}
+
+.rail__count {
+  flex: none;
   font-family: var(--mono);
-  font-size: 0.6875rem;
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  color: var(--mist);
+}
+.rail__count b {
+  font-weight: 500;
+  color: var(--green-lift);   /* numerals take the green of the "3" */
+}
+
+.rail__btns { flex: none; display: flex; gap: 0.5rem; }
+
+.rail__btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--slate-lift);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background 260ms var(--ease), border-color 260ms var(--ease),
+              color 260ms var(--ease);
+}
+.rail__btn:hover:not(:disabled) {
+  background: var(--flow);
+  border-color: var(--flow);
+}
+.rail__btn:disabled { opacity: 0.32; cursor: default; }
+.rail__btn svg { pointer-events: none; }
+
+/* Pause / play uses a single button whose glyphs swap on state */
+.rail__btn .icon-pause { display: block; }
+.rail__btn .icon-play  { display: none; }
+.rail__btn[aria-pressed="true"] .icon-pause { display: none; }
+.rail__btn[aria-pressed="true"] .icon-play  { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__viewport { scroll-behavior: auto; }
+}
+
+/* --- 27. Clickable service headings ------------------------------------ */
+
+.svc__link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.svc__link:hover { background-size: 100% 2px; color: var(--flow); }
+.svc:hover .svc__stamp { background: var(--flow); }
+.svc__stamp { transition: background var(--dur) var(--ease); }
+
+/* Capability list, single wide column (used on the CCTV page) */
+.caps--wide { grid-template-columns: 1fr; }
+@media (min-width: 560px) { .caps--wide { grid-template-columns: 1fr; } }
+
+/* --- 28. Pills and capability tags ------------------------------------- */
+
+.pill {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--flow);
-  margin-bottom: 0.6rem;
-}
-.bio__body h2 { font-size: clamp(1.375rem, 2.4vw, 1.875rem); }
-.bio__ln {
-  display: inline-block;
-  margin-top: 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--flow);
-  border-bottom: 1px solid transparent;
-  transition: border-color 250ms var(--ease);
-}
-.bio__ln:hover { border-bottom-color: currentColor; }
-.bio__lead { margin-top: 1.1rem; }
-.bio__lead--todo {
-  color: var(--graphite);
-  font-style: italic;
-  border-left: 2px solid var(--stone);
-  padding-left: 1rem;
+  border-radius: 999px;
 }
 
-.bio__meta {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0 1.5rem;
-  margin: 1.75rem 0 0;
-  border-top: var(--rule);
-  padding-top: 1.25rem;
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2.25rem;
 }
-@media (min-width: 640px) { .bio__meta { grid-template-columns: 8.5rem 1fr; } }
-.bio__meta dt {
+.tag {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--stone);
+  border-radius: 999px;
   font-family: var(--mono);
   font-size: var(--t-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--flow);
-  padding-top: 0.1rem;
-}
-.bio__meta dd { margin: 0 0 1.1rem; }
-.bio__meta dd:last-of-type { margin-bottom: 0; }
-.bio__list { display: grid; gap: 0.3rem; }
-.bio__list li {
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  line-height: 1.6;
   color: var(--graphite);
+}
+
+/* --- 29. Photographic page hero ---------------------------------------- */
+
+.phero--photo { padding-bottom: clamp(3.5rem, 8vw, 6rem); }
+.phero__img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+.phero--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(22,26,28,0.93) 0%, rgba(22,26,28,0.72) 50%, rgba(22,26,28,0.45) 100%);
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--ink) 93%, transparent) 0%,
+    color-mix(in srgb, var(--ink) 72%, transparent) 50%,
+    color-mix(in srgb, var(--ink) 45%, transparent) 100%);
+}
+.phero--photo h1 { max-width: 20ch; }
+
+/* --- 30. Wide feature card in the discipline grid ---------------------- */
+
+.disc--wide { grid-column: 1 / -1; min-height: 17rem; }
+.disc--wide .disc__img { object-position: center 62%; }
+@media (min-width: 640px) {
+  .disc--wide .disc__body { max-width: 46ch; }
+}
+.disc__flag {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }

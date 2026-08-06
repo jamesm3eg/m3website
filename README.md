@@ -14,7 +14,8 @@ contact.html        Four offices + enquiry form
 404.html            Not-found page
 assets/css/site.css All styling
 assets/js/site.js   Mobile menu, scroll reveals, project filter
-assets/img/         logo-m3.svg (logo). Photos arrive when you run localise-images.sh
+assets/img/         logo-m3.svg, logo-m3-onlight.svg, cctv-crawler.jpg.
+                    The rest arrive when you run localise-images.sh
 sitemap.xml         Update if you add pages
 .nojekyll           Tells GitHub Pages to serve files as-is
 ```
@@ -96,6 +97,13 @@ the count in the `data-count` paragraph at the bottom.
 
 **Adding a job opening**: copy an `<article class="role">` block in `careers.html`.
 
+**The homepage slider** (`index.html`, section id `field`) uses native CSS scroll-snap.
+Add or remove a `<figure class="rail__slide">` and update the total in the
+`rail__count` paragraph. It stays swipeable with JavaScript disabled; the arrows,
+autoplay and progress meter are enhancements layered on top. Autoplay pauses on hover,
+on focus, when the section scrolls out of view, and permanently once a visitor uses the
+arrows. It never runs for visitors who have asked for reduced motion.
+
 **Navigation** has a Company dropdown (overview, core values, key staff, certifications,
 photo gallery) and flat top-level links for the rest. It opens on hover, on keyboard focus,
 and on tap, and closes on Escape or an outside click. It appears in both the header and
@@ -128,9 +136,18 @@ Copy was carried over from the existing site and tightened. Two things worth che
   Paolla Zulske Kovalsky and Henry Frees have photos and titles but no biography, because
   no bio page for either could be found. Their entries show an italic "Biography to be
   added" note with a `TODO` comment in the HTML marking exactly where the text goes.
-- **Gallery alt text.** The 16 photographs on `company.html#gallery` have empty `alt=""`
-  attributes, because the images could not be viewed while building the page. Please add a
-  short description to each one.
+- **Slider and gallery alt text.** The 16 photographs on `company.html#gallery` have empty `alt=""`
+  attributes, because the images could not be viewed while building the page. The same is
+  true of the 10 slider images on the homepage. Please add a short description to each one.
+- **VERIFY `key-staff/index.html` BEFORE PUBLISHING.** This page carries PE licence
+  numbers, degree years, institutions and affiliations for your named staff. None of it
+  could be traced to m3eg.com, which publishes only names and job titles, or to any other
+  source that was checked. It was reinstated at your request, and there is a warning
+  comment at the top of the file listing exactly what to check. Agencies verify PE numbers
+  during qualifications review, so an incorrect digit is a misrepresentation risk rather
+  than a typo. Check every number against your own records or the state board lookup.
+- **The CCTV photograph** (`assets/img/cctv-crawler.jpg`) was extracted from your flyer at
+  2400 x 900. If it is licensed stock, confirm the licence covers use on your website.
 
 ## URLs
 
