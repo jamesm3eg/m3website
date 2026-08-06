@@ -29,7 +29,20 @@
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a class="nav__link" href="company.html" aria-current="page">Company</a>
+      <div class="nav__group" data-navgroup>
+        <button class="nav__link nav__toggle" type="button" data-navtoggle
+                aria-expanded="false" aria-controls="menu-company" data-incompany="true">
+          Company
+          <svg class="nav__caret" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+        <div class="nav__panel" id="menu-company">
+          <a href="company.html" aria-current="page">Company overview</a>
+          <a href="company.html#values">Core values</a>
+          <a href="key-staff/">Key staff</a>
+          <a href="company.html#certifications">Certifications</a>
+          <a href="company.html#gallery">Photo gallery</a>
+        </div>
+      </div>
       <a class="nav__link" href="services.html">Services</a>
       <a class="nav__link" href="projects.html">Projects</a>
       <a class="nav__link" href="careers.html">Careers</a>
@@ -48,7 +61,16 @@
     <div class="drawer__inner">
       <div class="shell">
         <ul class="drawer__list">
-          <li><a href="company.html"><span>01</span> Company</a></li>
+          <li>
+            <a href="company.html"><span>01</span> Company</a>
+            <ul class="drawer__sub">
+              <li><a href="company.html" aria-current="page">Company overview</a></li>
+              <li><a href="company.html#values">Core values</a></li>
+              <li><a href="key-staff/">Key staff</a></li>
+              <li><a href="company.html#certifications">Certifications</a></li>
+              <li><a href="company.html#gallery">Photo gallery</a></li>
+            </ul>
+          </li>
           <li><a href="services.html"><span>02</span> Services</a></li>
           <li><a href="projects.html"><span>03</span> Projects</a></li>
           <li><a href="careers.html"><span>04</span> Careers</a></li>
@@ -151,39 +173,40 @@
       </div>
       <div data-reveal>
         <p class="lead">M3 is small enough that principals stay on projects from kickoff through closeout, and named leads do not change between the proposal and the notice to proceed.</p>
+        <p style="margin-top:1.25rem;"><a class="tlink" href="key-staff/">Full biographies and registrations <span aria-hidden="true">&rarr;</span></a></p>
       </div>
     </div>
     <div class="people">
-      <article class="person" data-reveal>
+      <a class="person" href="key-staff/#bio-1" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2023/07/marjorie.jpeg" alt="Marjorie Melton, PE, LEED AP" loading="lazy" decoding="async">
         <span class="person__role">President</span>
         <h3>Marjorie Melton, PE, LEED AP</h3>
-      </article>
-      <article class="person" data-reveal>
+      </a>
+      <a class="person" href="key-staff/#bio-2" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2023/07/marc.jpeg" alt="Marc Eshelman, PE" loading="lazy" decoding="async">
         <span class="person__role">Principal</span>
         <h3>Marc Eshelman, PE</h3>
-      </article>
-      <article class="person" data-reveal>
+      </a>
+      <a class="person" href="key-staff/#bio-3" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2023/07/todd.jpeg" alt="Todd Williams, PE" loading="lazy" decoding="async">
         <span class="person__role">Principal</span>
         <h3>Todd Williams, PE</h3>
-      </article>
-      <article class="person" data-reveal>
+      </a>
+      <a class="person" href="key-staff/#bio-4" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2023/07/mike.jpeg" alt="Mike Fitzhenry, PE" loading="lazy" decoding="async">
         <span class="person__role">Senior Program Water Resource Engineer</span>
         <h3>Mike Fitzhenry, PE</h3>
-      </article>
-      <article class="person" data-reveal>
+      </a>
+      <a class="person" href="key-staff/#bio-5" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2025/08/Paolla-Website-Headshot-2025-e1756241996609.jpeg" alt="Paolla Zulske Kovalsky, PE" loading="lazy" decoding="async">
         <span class="person__role">Transportation Group Lead</span>
         <h3>Paolla Zulske Kovalsky, PE</h3>
-      </article>
-      <article class="person" data-reveal>
+      </a>
+      <a class="person" href="key-staff/#bio-6" data-reveal>
         <img class="person__img" src="https://m3eg.com/wp-content/uploads/2025/08/Henry-Website-Headshot-2025-e1756241911634.jpeg" alt="Henry Frees" loading="lazy" decoding="async">
         <span class="person__role">Field Services Group Lead</span>
         <h3>Henry Frees</h3>
-      </article>
+      </a>
     </div>
   </div>
 </section>
@@ -314,7 +337,7 @@
       <img class="mark__logo" src="assets/img/logo-m3.svg" alt="M3 Engineering Group" width="132" height="81">
     </a>
         <h2 style="margin-top:1.75rem;">Civil and environmental engineering, hydraulics first.</h2>
-        <p class="lead lead--dark" style="margin-top:1rem;font-size:var(--t-small);">911 Washington Ave, St. Louis, MO 63101 &nbsp;&middot;&nbsp; <a href="mailto:info@m3eg.com" style="color:var(--flow-lift);">info@m3eg.com</a></p>
+        <p class="lead lead--dark" style="margin-top:1rem;font-size:var(--t-small);">911 Washington Ave, Suite 620, St. Louis, MO 63101 &nbsp;&middot;&nbsp; <a href="mailto:info@m3eg.com" style="color:var(--flow-lift);">info@m3eg.com</a></p>
       </div>
 
       <div class="ftr__cols">
@@ -335,6 +358,7 @@
           <li><a href="company.html">About M3</a></li>
           <li><a href="company.html#values">Core values</a></li>
           <li><a href="company.html#leadership">Leadership</a></li>
+          <li><a href="key-staff/">Key staff</a></li>
           <li><a href="company.html#certifications">Certifications</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="careers.html">Careers</a></li>

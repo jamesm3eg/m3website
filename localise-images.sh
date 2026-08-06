@@ -15,6 +15,8 @@
 set -uo pipefail
 
 BASE="https://m3eg.com/wp-content/uploads"
+PREFIX_RE="https://m3eg\\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/"
+
 mkdir -p assets/img
 
 FILES=(
@@ -72,14 +74,29 @@ if [ "$fail" -gt 0 ]; then
 fi
 
 echo
-echo "Rewriting image references in the HTML..."
+echo "Rewriting image references..."
+
+# Pages at the repository root point straight at assets/img/.
+# Pages one directory down (key-staff/) need ../assets/img/ instead, so the
+# two depths are rewritten separately. macOS sed and GNU sed disagree about
+# -i, so each file is written via a temp file.
+rewrite () {   # $1 = file, $2 = replacement prefix
+  sed -E "s#${PREFIX_RE}#$2#g" "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+  printf '  %s\n' "$1"
+}
+
 for html in ./*.html; do
-  # macOS sed and GNU sed disagree about -i, so write to a temp file instead.
-  sed -E "s#https://m3eg\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/#assets/img/#g" \
-    "$html" > "$html.tmp" && mv "$html.tmp" "$html"
+  [ -e "$html" ] || continue
+  rewrite "$html" "assets/img/"
 done
 
+for html in ./*/*.html; do
+  [ -e "$html" ] || continue
+  rewrite "$html" "../assets/img/"
+done
+
+echo
 echo "Done. Review with 'git diff', then commit."
 echo
-echo "Note: the gallery images use empty alt=\"\" attributes. Add real"
-echo "descriptions in company.html for accessibility and image search."
+echo "Note: the gallery images on company.html use empty alt=\"\" attributes."
+echo "Add real descriptions for accessibility and image search."

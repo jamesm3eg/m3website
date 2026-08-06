@@ -29,7 +29,20 @@
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a class="nav__link" href="company.html">Company</a>
+      <div class="nav__group" data-navgroup>
+        <button class="nav__link nav__toggle" type="button" data-navtoggle
+                aria-expanded="false" aria-controls="menu-company">
+          Company
+          <svg class="nav__caret" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+        <div class="nav__panel" id="menu-company">
+          <a href="company.html">Company overview</a>
+          <a href="company.html#values">Core values</a>
+          <a href="key-staff/">Key staff</a>
+          <a href="company.html#certifications">Certifications</a>
+          <a href="company.html#gallery">Photo gallery</a>
+        </div>
+      </div>
       <a class="nav__link" href="services.html">Services</a>
       <a class="nav__link" href="projects.html">Projects</a>
       <a class="nav__link" href="careers.html" aria-current="page">Careers</a>
@@ -48,7 +61,16 @@
     <div class="drawer__inner">
       <div class="shell">
         <ul class="drawer__list">
-          <li><a href="company.html"><span>01</span> Company</a></li>
+          <li>
+            <a href="company.html"><span>01</span> Company</a>
+            <ul class="drawer__sub">
+              <li><a href="company.html">Company overview</a></li>
+              <li><a href="company.html#values">Core values</a></li>
+              <li><a href="key-staff/">Key staff</a></li>
+              <li><a href="company.html#certifications">Certifications</a></li>
+              <li><a href="company.html#gallery">Photo gallery</a></li>
+            </ul>
+          </li>
           <li><a href="services.html"><span>02</span> Services</a></li>
           <li><a href="projects.html"><span>03</span> Projects</a></li>
           <li><a href="careers.html"><span>04</span> Careers</a></li>
@@ -163,7 +185,7 @@
       <img class="mark__logo" src="assets/img/logo-m3.svg" alt="M3 Engineering Group" width="132" height="81">
     </a>
         <h2 style="margin-top:1.75rem;">Civil and environmental engineering, hydraulics first.</h2>
-        <p class="lead lead--dark" style="margin-top:1rem;font-size:var(--t-small);">911 Washington Ave, St. Louis, MO 63101 &nbsp;&middot;&nbsp; <a href="mailto:info@m3eg.com" style="color:var(--flow-lift);">info@m3eg.com</a></p>
+        <p class="lead lead--dark" style="margin-top:1rem;font-size:var(--t-small);">911 Washington Ave, Suite 620, St. Louis, MO 63101 &nbsp;&middot;&nbsp; <a href="mailto:info@m3eg.com" style="color:var(--flow-lift);">info@m3eg.com</a></p>
       </div>
 
       <div class="ftr__cols">
@@ -184,6 +206,7 @@
           <li><a href="company.html">About M3</a></li>
           <li><a href="company.html#values">Core values</a></li>
           <li><a href="company.html#leadership">Leadership</a></li>
+          <li><a href="key-staff/">Key staff</a></li>
           <li><a href="company.html#certifications">Certifications</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="careers.html">Careers</a></li>

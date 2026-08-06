@@ -1169,3 +1169,162 @@ p { text-wrap: pretty; }
 .band h2 { font-size: var(--t-h2); max-width: 30ch; }
 .band .lead { margin-top: 1.25rem; }
 .band .label { margin-bottom: 1.25rem; }
+
+/* --- 25. Company dropdown ----------------------------------------------- */
+
+.nav__group { position: relative; }
+
+.nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 0;
+  padding: 0.4rem 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav__caret { transition: transform var(--dur) var(--ease); }
+.nav__toggle[data-incompany] { color: var(--flow-lift); }
+.nav__toggle[data-incompany]::after { width: 100%; }
+
+.nav__panel {
+  position: absolute;
+  top: calc(100% + 0.9rem);
+  left: -1.25rem;
+  min-width: 15.5rem;
+  padding: 0.4rem 0;
+  background: #161A1C;
+  background: color-mix(in srgb, var(--ink) 97%, transparent);
+  border: 1px solid var(--slate-lift);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease),
+              visibility 220ms var(--ease);
+}
+.nav__panel a {
+  display: block;
+  padding: 0.65rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+}
+.nav__panel a:hover { background: var(--slate); color: var(--flow-lift); }
+.nav__panel a[aria-current="page"] { color: var(--flow-lift); }
+
+/* Open on hover for pointer devices, on focus for keyboards, on tap via JS. */
+@media (hover: hover) {
+  .nav__group:hover .nav__panel { opacity: 1; visibility: visible; transform: none; }
+  .nav__group:hover .nav__caret { transform: rotate(180deg); }
+}
+.nav__group:focus-within .nav__panel,
+.nav__group.is-open .nav__panel { opacity: 1; visibility: visible; transform: none; }
+.nav__group:focus-within .nav__caret,
+.nav__group.is-open .nav__caret { transform: rotate(180deg); }
+
+/* Nested items in the mobile drawer */
+.drawer__sub {
+  display: grid;
+  padding: 0 0 0.85rem 0;
+  border-bottom: var(--rule-dark);
+}
+.drawer__list li:has(.drawer__sub) > a { border-bottom: 0; }
+.drawer__sub a {
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  border-bottom: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--mist);
+}
+.drawer__sub a:hover,
+.drawer__sub a[aria-current="page"] { color: var(--flow-lift); }
+
+/* --- 26. Staff biographies --------------------------------------------- */
+
+.bio {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: 1fr;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: var(--rule);
+}
+.bio:first-of-type { padding-top: 0; }
+.bio:last-of-type { border-bottom: 0; padding-bottom: 0; }
+@media (min-width: 860px) {
+  .bio { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); align-items: start; }
+}
+.bio__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--paper-warm);
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 600ms var(--ease);
+}
+.bio:hover .bio__media img { filter: grayscale(0); }
+
+.bio__role {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--flow);
+  margin-bottom: 0.6rem;
+}
+.bio__body h2 { font-size: clamp(1.375rem, 2.4vw, 1.875rem); }
+.bio__ln {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flow);
+  border-bottom: 1px solid transparent;
+  transition: border-color 250ms var(--ease);
+}
+.bio__ln:hover { border-bottom-color: currentColor; }
+.bio__lead { margin-top: 1.1rem; }
+.bio__lead--todo {
+  color: var(--graphite);
+  font-style: italic;
+  border-left: 2px solid var(--stone);
+  padding-left: 1rem;
+}
+
+.bio__meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 1.5rem;
+  margin: 1.75rem 0 0;
+  border-top: var(--rule);
+  padding-top: 1.25rem;
+}
+@media (min-width: 640px) { .bio__meta { grid-template-columns: 8.5rem 1fr; } }
+.bio__meta dt {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flow);
+  padding-top: 0.1rem;
+}
+.bio__meta dd { margin: 0 0 1.1rem; }
+.bio__meta dd:last-of-type { margin-bottom: 0; }
+.bio__list { display: grid; gap: 0.3rem; }
+.bio__list li {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--graphite);
+}

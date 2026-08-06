@@ -5,7 +5,8 @@ dependencies, no framework. Open `index.html` in a browser and it works.
 
 ```
 index.html          Home
-company.html        About, core values, leadership, certifications
+company.html        About, core values, leadership, certifications, gallery
+key-staff/          Full biographies and registrations (URL: /key-staff/)
 services.html       Six disciplines with capability lists (anchor links per discipline)
 projects.html       Filterable index of 25 projects
 careers.html        Openings
@@ -95,8 +96,10 @@ the count in the `data-count` paragraph at the bottom.
 
 **Adding a job opening**: copy an `<article class="role">` block in `careers.html`.
 
-**Navigation** appears in both the header and footer of every page, so a new page means
-editing all six files. If that becomes tedious, that is the point at which a static site
+**Navigation** has a Company dropdown (overview, core values, key staff, certifications,
+photo gallery) and flat top-level links for the rest. It opens on hover, on keyboard focus,
+and on tap, and closes on Escape or an outside click. It appears in both the header and
+footer of every page, so a new page means editing all eight files. If that becomes tedious, that is the point at which a static site
 generator like Eleventy or Astro starts earning its keep — both still output plain HTML.
 
 **Swapping in the real logo**: the wordmark is inline SVG in the header and footer of
@@ -117,15 +120,42 @@ Copy was carried over from the existing site and tightened. Two things worth che
 - **The Memphis office** is mentioned on the current Company page but has no address or
   phone anywhere on the site. It is listed here without a street address; fill it in when
   you have it, in `index.html` and `contact.html`.
-- **The St. Louis suite number.** Your website says "911 Washington Ave". Your LinkedIn
-  and Facebook pages both say "911 Washington Ave, Suite 620". The site currently matches
-  your website, without the suite. If Suite 620 is right, add it in `index.html` and
-  `contact.html`.
+- **Suite 620 has been added** to the St. Louis address. Your own website omitted it, but
+  ACEC Missouri, SAM.gov and Dun & Bradstreet all list "911 Washington Avenue, Suite 620",
+  so it looks like an omission on the old site rather than a change. Worth a glance.
+- **Two biographies are missing.** `key-staff/` has full write-ups for Marjorie Melton,
+  Marc Eshelman, Todd Williams and Mike Fitzhenry, taken from your existing bio pages.
+  Paolla Zulske Kovalsky and Henry Frees have photos and titles but no biography, because
+  no bio page for either could be found. Their entries show an italic "Biography to be
+  added" note with a `TODO` comment in the HTML marking exactly where the text goes.
 - **Gallery alt text.** The 16 photographs on `company.html#gallery` have empty `alt=""`
   attributes, because the images could not be viewed while building the page. Please add a
   short description to each one.
 
-The previous site had a separate page per service (`/wastewater/`, `/stormwater/`, etc.).
-Those are now anchored sections on `services.html` — for example
-`services.html#stormwater`. If those old URLs have search rankings you care about, say so
-and they can be split back out into standalone pages with redirects.
+## URLs
+
+`key-staff/` is a real directory containing `index.html`, so it serves at exactly
+`https://m3eg.com/key-staff/` — the same URL as on the current WordPress site. Any existing
+links or search rankings pointing there keep working.
+
+The other consolidated pages did not get that treatment. These old URLs will 404 after the
+switch:
+
+| Old URL | Now lives at |
+|---|---|
+| `/values/` | `company.html#values` |
+| `/certifications/` | `company.html#certifications` |
+| `/photo-gallery/` | `company.html#gallery` |
+| `/wastewater/` | `services.html#water-wastewater` |
+| `/stormwater/` | `services.html#stormwater` |
+| `/stream-restoration/` | `services.html#stream-restoration` |
+| `/asset-management/` | `services.html#asset-management` |
+| `/transportation/` | `services.html#transportation` |
+| `/construction/` | `services.html#construction-management` |
+| `/career/` | `careers.html` |
+| `/st-louis/`, `/chicago/`, `/st-charles/` | `contact.html` |
+
+Any of these can be given the same treatment as `key-staff/` — a folder with an
+`index.html` that either holds the content or redirects. Say which ones matter and they can
+be added. The individual staff bio pages (`/key-staff/marc-eshelman-pe/` and so on) are now
+sections of one page rather than separate URLs.

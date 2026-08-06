@@ -54,6 +54,38 @@
     revealables.forEach(function (el) { io.observe(el); });
   }
 
+  /* --- Company dropdown ------------------------------------------------
+     Hover and focus are handled in CSS. This adds tap support on touch
+     devices and Escape/outside-click dismissal. */
+  var navGroup = document.querySelector('[data-navgroup]');
+  var navToggle = document.querySelector('[data-navtoggle]');
+
+  if (navGroup && navToggle) {
+    var setNav = function (open) {
+      navGroup.classList.toggle('is-open', open);
+      navToggle.setAttribute('aria-expanded', String(open));
+    };
+
+    navToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      setNav(!navGroup.classList.contains('is-open'));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!navGroup.contains(e.target)) { setNav(false); }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navGroup.classList.contains('is-open')) {
+        setNav(false);
+        navToggle.focus();
+      }
+    });
+
+    // Leaving the group with the mouse should also reset the tapped state.
+    navGroup.addEventListener('mouseleave', function () { setNav(false); });
+  }
+
   /* --- Project index filter -------------------------------------------- */
   var filterBar = document.querySelector('[data-filters]');
 
