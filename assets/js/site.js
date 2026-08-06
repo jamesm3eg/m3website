@@ -86,6 +86,64 @@
     navGroup.addEventListener('mouseleave', function () { setNav(false); });
   }
 
+  /* --- Hero photo panel ------------------------------------------------
+     Crossfade, not scroll. Pausable, and never runs under reduced-motion. */
+  var hshow = document.querySelector('[data-hshow]');
+
+  if (hshow) {
+    var shots = hshow.querySelectorAll('.hshow__slide');
+    var shotOut = hshow.querySelector('[data-hshow-index]');
+    var shotBtn = hshow.querySelector('[data-hshow-toggle]');
+    var at = 0, shotTimer = null, shotStopped = false;
+
+    var paint = function () {
+      for (var n = 0; n < shots.length; n++) {
+        shots[n].classList.toggle('is-on', n === at);
+      }
+      if (shotOut) { shotOut.textContent = ('0' + (at + 1)).slice(-2); }
+    };
+
+    var startShots = function () {
+      if (reduced || shotStopped || shotTimer || shots.length < 2) { return; }
+      shotTimer = window.setInterval(function () {
+        at = (at + 1) % shots.length;
+        paint();
+      }, 5000);
+      if (shotBtn) { shotBtn.setAttribute('aria-pressed', 'false'); }
+    };
+    var pauseShots = function () {
+      if (shotTimer) { window.clearInterval(shotTimer); shotTimer = null; }
+    };
+    var stopShots = function () {
+      shotStopped = true;
+      pauseShots();
+      if (shotBtn) { shotBtn.setAttribute('aria-pressed', 'true'); }
+    };
+
+    if (shotBtn) {
+      shotBtn.addEventListener('click', function () {
+        if (shotTimer) { stopShots(); }
+        else { shotStopped = false; startShots(); }
+      });
+      if (reduced) { shotBtn.setAttribute('aria-pressed', 'true'); }
+    }
+
+    hshow.addEventListener('mouseenter', pauseShots);
+    hshow.addEventListener('mouseleave', function () { if (!shotStopped) { startShots(); } });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { startShots(); } else { pauseShots(); }
+        });
+      }, { threshold: 0.25 }).observe(hshow);
+    } else {
+      startShots();
+    }
+
+    paint();
+  }
+
   /* --- Field slider ---------------------------------------------------- */
   var rail = document.querySelector('[data-rail]');
 

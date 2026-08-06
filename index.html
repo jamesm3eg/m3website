@@ -119,7 +119,7 @@
   </div>
   <div class="hero__grad" aria-hidden="true"></div>
 
-  <div class="shell">
+  <div class="shell hero__grid">
     <div class="hero__body">
       <span class="label label--dark label--tick hero__label">M3 Engineering Group, P.C. &nbsp;&middot;&nbsp; Established 2009</span>
       <h1>We design for how water <em>actually</em> moves.</h1>
@@ -129,6 +129,27 @@
         <a class="btn btn--ghost-dark" href="contact.html">Talk to an engineer</a>
       </div>
     </div>
+
+      <div class="hero__media">
+        <!-- Crossfading photo panel. The first slide carries .is-on so a
+             photograph shows even with JavaScript disabled. -->
+        <div class="hshow" data-hshow role="group" aria-label="M3 project photography">
+          <figure class="hshow__slide is-on"><img src="assets/img/cctv-crawler.jpg" alt="A tracked CCTV inspection crawler in a large-diameter concrete sewer pipe" fetchpriority="high" decoding="async"></figure>
+          <figure class="hshow__slide"><img src="https://m3eg.com/wp-content/uploads/2023/06/home-gallery-02-scaled.jpg" alt="" loading="lazy" decoding="async"></figure>
+          <figure class="hshow__slide"><img src="https://m3eg.com/wp-content/uploads/2023/07/3-scaled.jpeg" alt="" loading="lazy" decoding="async"></figure>
+          <figure class="hshow__slide"><img src="https://m3eg.com/wp-content/uploads/2023/07/6-1-scaled.jpg" alt="" loading="lazy" decoding="async"></figure>
+          <figure class="hshow__slide"><img src="https://m3eg.com/wp-content/uploads/2023/06/home-gallery-01-scaled.jpg" alt="" loading="lazy" decoding="async"></figure>
+          <figure class="hshow__slide"><img src="https://m3eg.com/wp-content/uploads/2023/07/25-scaled.jpeg" alt="" loading="lazy" decoding="async"></figure>
+          <div class="hshow__bar">
+            <p class="hshow__count"><b data-hshow-index>01</b> / 6</p>
+            <button class="hshow__btn" type="button" data-hshow-toggle aria-pressed="false">
+              <svg class="icon-pause" width="9" height="11" viewBox="0 0 9 11" aria-hidden="true"><rect x="0" y="0" width="3" height="11" fill="currentColor"/><rect x="6" y="0" width="3" height="11" fill="currentColor"/></svg>
+              <svg class="icon-play" width="9" height="11" viewBox="0 0 9 11" aria-hidden="true"><path d="M0 0l9 5.5L0 11z" fill="currentColor"/></svg>
+              <span class="vh">Pause or resume the photographs</span>
+            </button>
+          </div>
+        </div>
+      </div>
   </div>
 
   <!-- Axis strip doubles as the index of what follows -->
