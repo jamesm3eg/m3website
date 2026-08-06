@@ -13,7 +13,7 @@ contact.html        Four offices + enquiry form
 404.html            Not-found page
 assets/css/site.css All styling
 assets/js/site.js   Mobile menu, scroll reveals, project filter
-assets/img/         Empty until you run localise-images.sh
+assets/img/         logo-m3.svg (logo). Photos arrive when you run localise-images.sh
 sitemap.xml         Update if you add pages
 .nojekyll           Tells GitHub Pages to serve files as-is
 ```
@@ -62,8 +62,11 @@ domain moves. Fix it by running, from the repository root:
 bash localise-images.sh
 ```
 
-That downloads the 12 images into `assets/img/` and rewrites the HTML to point at the
-local copies. Review with `git diff`, then commit.
+That downloads all 30 photographs into `assets/img/` and rewrites the HTML to point at
+the local copies. If any download fails the script tells you which, so nothing breaks
+silently. Review with `git diff`, then commit.
+
+The logo is already local (`assets/img/logo-m3.svg`) so it is not affected.
 
 ### 2. Connect the contact form
 
@@ -114,6 +117,13 @@ Copy was carried over from the existing site and tightened. Two things worth che
 - **The Memphis office** is mentioned on the current Company page but has no address or
   phone anywhere on the site. It is listed here without a street address; fill it in when
   you have it, in `index.html` and `contact.html`.
+- **The St. Louis suite number.** Your website says "911 Washington Ave". Your LinkedIn
+  and Facebook pages both say "911 Washington Ave, Suite 620". The site currently matches
+  your website, without the suite. If Suite 620 is right, add it in `index.html` and
+  `contact.html`.
+- **Gallery alt text.** The 16 photographs on `company.html#gallery` have empty `alt=""`
+  attributes, because the images could not be viewed while building the page. Please add a
+  short description to each one.
 
 The previous site had a separate page per service (`/wastewater/`, `/stormwater/`, etc.).
 Those are now anchored sections on `services.html` — for example

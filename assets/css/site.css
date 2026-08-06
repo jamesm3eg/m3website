@@ -8,17 +8,23 @@
 
 :root {
   /* Colour: drawn from bathymetric and soil-survey mapping */
-  --ink:        #0C1A1E;   /* deep water — primary dark ground */
-  --slate:      #16292F;   /* secondary dark surface */
-  --slate-lift: #1E353C;   /* raised dark surface, hairlines on dark */
+  /* Sampled from the M3 logo: the blue of the "m", the green of the "3",
+     and the charcoal it sits on. Blue names things; green marks numbers. */
+  --ink:        #161A1C;   /* logo charcoal — primary dark ground */
+  --slate:      #1F262A;   /* secondary dark surface */
+  --slate-lift: #2C353A;   /* raised dark surface, hairlines on dark */
   --paper:      #F2F1ED;   /* cool neutral off-white — primary light ground */
   --paper-warm: #E9E8E2;   /* recessed light surface */
   --stone:      #CFCDC4;   /* rules and borders on light */
-  --graphite:   #5A6A6E;   /* secondary text on light */
-  --mist:       #9FB0B3;   /* secondary text on dark */
-  --flow:       #2E8C86;   /* accent — hydrology flow teal */
-  --flow-lift:  #3FA9A1;   /* accent, hover / on dark */
-  --marker:     #D9A03C;   /* survey flagging amber — data marks only */
+  --graphite:   #5B666B;   /* secondary text on light */
+  --mist:       #9AA7AD;   /* secondary text on dark */
+
+  --flow:       #3A6F8F;   /* BRAND BLUE. 4.83:1 on --paper, so safe for text there. */
+  --flow-lift:  #5A96BA;   /* lifted blue for dark grounds (5.43:1 on --ink) */
+  --green:      #78A22F;   /* BRAND GREEN. 5.85:1 on --ink — dark grounds only. */
+  --green-lift: #92BF45;   /* lifted green, 8.14:1 on --ink */
+  /* Brand green is only 2.65:1 on --paper, so it never carries text on light
+     backgrounds — there it appears as graphical marks alone. */
 
   /* Type */
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -286,7 +292,7 @@ p { text-wrap: pretty; }
 }
 .hdr.is-scrolled,
 .hdr.is-solid {
-  background: #0C1A1E;                                        /* fallback */
+  background: #161A1C;                                        /* fallback */
   background: color-mix(in srgb, var(--ink) 94%, transparent); /* preferred */
   backdrop-filter: blur(12px);
   border-bottom-color: var(--slate-lift);
@@ -408,7 +414,7 @@ p { text-wrap: pretty; }
   font-size: 0.625rem;
   font-weight: 400;
   letter-spacing: 0.14em;
-  color: var(--flow-lift);
+  color: var(--green-lift);
 }
 .drawer__foot { padding-top: 1.5rem; }
 
@@ -448,7 +454,7 @@ p { text-wrap: pretty; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, rgba(12, 26, 30, 0.96) 4%, rgba(12, 26, 30, 0.6) 55%, rgba(12, 26, 30, 0.96) 100%);
+  background: linear-gradient(to top, rgba(22, 26, 28, 0.96) 4%, rgba(22, 26, 28, 0.6) 55%, rgba(22, 26, 28, 0.96) 100%);
   background:
     radial-gradient(120% 90% at 12% 100%, color-mix(in srgb, var(--flow) 22%, transparent), transparent 62%),
     linear-gradient(to top, var(--ink) 4%, color-mix(in srgb, var(--ink) 60%, transparent) 55%, var(--ink) 100%);
@@ -536,7 +542,7 @@ p { text-wrap: pretty; }
   font-size: 0.4em;
   font-weight: 600;
   letter-spacing: 0;
-  color: var(--flow-lift);
+  color: var(--green-lift);
   margin-left: 0.15em;
   vertical-align: super;
 }
@@ -587,7 +593,7 @@ p { text-wrap: pretty; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, rgba(12,26,30,0.95) 8%, rgba(12,26,30,0.55) 52%, rgba(12,26,30,0.3) 100%);
+  background: linear-gradient(to top, rgba(22,26,28,0.95) 8%, rgba(22,26,28,0.55) 52%, rgba(22,26,28,0.3) 100%);
   background: linear-gradient(to top,
     color-mix(in srgb, var(--ink) 95%, transparent) 8%,
     color-mix(in srgb, var(--ink) 55%, transparent) 52%,
@@ -602,7 +608,7 @@ p { text-wrap: pretty; }
   font-family: var(--mono);
   font-size: 0.625rem;
   letter-spacing: 0.16em;
-  color: var(--flow-lift);
+  color: var(--green-lift);
   display: block;
   margin-bottom: 0.75rem;
 }
@@ -896,7 +902,7 @@ p { text-wrap: pretty; }
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 0.6;
-  color: var(--flow-lift);
+  color: var(--green-lift);
   margin-bottom: 1.25rem;
 }
 .quote p { color: var(--paper); font-size: var(--t-small); line-height: 1.7; }
@@ -1089,3 +1095,77 @@ p { text-wrap: pretty; }
   .hdr, .cta, .hero__profile, .stations { display: none; }
   body { background: #fff; color: #000; }
 }
+
+/* --- 22. Logo lockup ----------------------------------------------------
+   The header and footer now use the real M3 logo as SVG. The typographic
+   wordmark rules above (.mark__glyph / .mark__name / .mark__sub) are left in
+   place but unused, in case you ever want to revert to a text lockup. */
+
+.mark__logo {
+  display: block;
+  width: 132px;
+  height: auto;
+}
+@media (max-width: 560px) {
+  .mark__logo { width: 104px; }
+}
+.ftr .mark__logo { width: 148px; }
+
+/* --- 23. Field gallery -------------------------------------------------- */
+
+.gallery {
+  display: grid;
+  gap: 1px;
+  background: var(--stone);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 700px)  { .gallery { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .gallery { grid-template-columns: repeat(4, 1fr); } }
+
+.gallery figure {
+  margin: 0;
+  background: var(--ink);
+  overflow: hidden;
+  position: relative;
+}
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 900ms var(--ease);
+}
+.gallery figure:hover img { transform: scale(1.05); }
+
+/* --- 24. Full-bleed photographic band ---------------------------------- */
+
+.band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: clamp(5rem, 12vw, 9rem);
+}
+.band__img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.42;
+}
+.band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(22,26,28,0.94) 0%, rgba(22,26,28,0.7) 55%, rgba(22,26,28,0.4) 100%);
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--ink) 94%, transparent) 0%,
+    color-mix(in srgb, var(--ink) 70%, transparent) 55%,
+    color-mix(in srgb, var(--ink) 40%, transparent) 100%);
+}
+.band h2 { font-size: var(--t-h2); max-width: 30ch; }
+.band .lead { margin-top: 1.25rem; }
+.band .label { margin-bottom: 1.25rem; }
