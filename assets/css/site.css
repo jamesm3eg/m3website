@@ -479,7 +479,7 @@ p { text-wrap: pretty; }
   display: none;
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  z-index: -1;
+  z-index: 2;
   border-top: var(--rule-dark);
   padding-inline: var(--gutter);
 }
@@ -490,7 +490,7 @@ p { text-wrap: pretty; }
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
-.stations__inner span {
+.stations__inner a {
   font-family: var(--mono);
   font-size: 0.625rem;
   letter-spacing: 0.14em;
@@ -498,6 +498,12 @@ p { text-wrap: pretty; }
   color: color-mix(in srgb, var(--mist) 55%, transparent);
   padding: 0.6rem 0 0.7rem 0.6rem;
   border-left: var(--rule-dark);
+  text-decoration: none;
+  transition: color 250ms var(--ease);
+}
+.stations__inner a:hover,
+.stations__inner a:focus-visible {
+  color: var(--flow-lift);
 }
 
 /* Page hero for interior pages */
