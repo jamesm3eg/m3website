@@ -238,7 +238,11 @@
     rail.addEventListener('mouseleave', function () { if (!userStopped) { start(); } });
     rail.addEventListener('focusin', pause);
     rail.addEventListener('focusout', function () { if (!userStopped) { start(); } });
-    track.addEventListener('pointerdown', stop);
+    // A touch or drag pauses the autoplay; it resumes shortly afterwards.
+    track.addEventListener('pointerdown', pause);
+    track.addEventListener('pointerup', function () {
+      window.setTimeout(function () { if (!userStopped) { start(); } }, 4000);
+    });
 
     // Only run autoplay while the section is actually on screen.
     if ('IntersectionObserver' in window) {
