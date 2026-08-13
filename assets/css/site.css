@@ -491,11 +491,11 @@ p { text-wrap: pretty; }
   grid-template-columns: repeat(7, 1fr);
 }
 .stations__inner a {
-  font-family: var(--mono);
+  font-family: var(--mono) !important;
   font-size: 0.625rem;
   letter-spacing: 0.14em;
-  color: #7A8A8D;
-  color: color-mix(in srgb, var(--mist) 55%, transparent);
+  color: #7A8A8D !important;
+  color: color-mix(in srgb, var(--mist) 55%, transparent) !important;
   padding: 0.6rem 0 0.7rem 0.6rem;
   border-left: var(--rule-dark);
   text-decoration: none;
@@ -503,7 +503,7 @@ p { text-wrap: pretty; }
 }
 .stations__inner a:hover,
 .stations__inner a:focus-visible {
-  color: var(--flow-lift);
+  color: var(--flow-lift) !important;
 }
 
 /* Page hero for interior pages */
@@ -932,7 +932,7 @@ p { text-wrap: pretty; }
   grid-template-columns: 1fr;
 }
 @media (min-width: 620px) { .offices { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 980px) { .offices { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 980px) { .offices { grid-template-columns: repeat(3, 1fr); } }
 .office {
   background: var(--paper);
   padding: clamp(1.5rem, 3vw, 2.25rem);
