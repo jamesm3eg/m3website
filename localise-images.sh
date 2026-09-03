@@ -10,7 +10,8 @@
 # After this the site no longer depends on m3eg.com being online, which matters
 # the moment you point the domain at GitHub Pages.
 #
-# The logo and the CCTV photograph are already local and are not touched.
+# The logo, the CCTV photograph and Matt Eshelman's headshot are already local
+# and are not touched.
 #
 # Requires: curl (preinstalled on macOS and most Linux; on Windows use Git Bash).
 
@@ -88,6 +89,12 @@ done
 for html in ./*/*.html; do
   [ -e "$html" ] || continue
   sed -E "s#https://m3eg\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/#../assets/img/#g" \
+    "$html" > "$html.tmp" && mv "$html.tmp" "$html"
+done
+# Individual key-staff biography pages sit two directories down.
+for html in ./*/*/*.html; do
+  [ -e "$html" ] || continue
+  sed -E "s#https://m3eg\.com/wp-content/uploads/[0-9]{4}/[0-9]{2}/#../../assets/img/#g" \
     "$html" > "$html.tmp" && mv "$html.tmp" "$html"
 done
 

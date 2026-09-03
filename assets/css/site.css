@@ -1543,3 +1543,228 @@ p { text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) {
   .hshow__slide { transition: none; }
 }
+
+/* --- 32. Key staff directory -------------------------------------------- */
+
+.staff {
+  display: grid;
+  gap: clamp(1.75rem, 3.2vw, 2.75rem) clamp(1.25rem, 2.6vw, 2.25rem);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 900px) { .staff { grid-template-columns: repeat(3, 1fr); } }
+
+.scard {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+.scard__frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-warm);
+  border: 1px solid var(--stone);
+}
+.scard__img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: grayscale(1) contrast(1.04);
+  transition: filter 620ms var(--ease), transform 720ms var(--ease);
+}
+.scard:hover .scard__img,
+.scard:focus-visible .scard__img {
+  filter: grayscale(0) contrast(1);
+  transform: scale(1.022);
+}
+/* Datum tick that slides in across the frame on hover */
+.scard__frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 420ms var(--ease);
+}
+.scard:hover .scard__frame::after,
+.scard:focus-visible .scard__frame::after { transform: scaleX(1); }
+
+.scard__role {
+  display: block;
+  /* Two lines' worth of space so the names line up across a row even when
+     one person's title wraps and their neighbour's does not. */
+  min-height: 2.3em;
+  margin-top: 1.05rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--flow);
+}
+.scard__name {
+  font-family: var(--display);
+  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.28;
+  margin-top: 0.35rem;
+}
+.scard__more {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  transition: color 260ms var(--ease);
+}
+.scard:hover .scard__more,
+.scard:focus-visible .scard__more { color: var(--flow); }
+.scard:focus-visible { outline: 2px solid var(--flow); outline-offset: 6px; }
+
+/* --- 33. Individual staff biography ------------------------------------- */
+
+.sbio {
+  display: grid;
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .sbio { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr); }
+}
+
+.sbio__aside { position: relative; }
+@media (min-width: 900px) {
+  .sbio__aside { position: sticky; top: 7.5rem; }
+}
+.sbio__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 20%;
+  background: var(--paper-warm);
+  border: 1px solid var(--stone);
+}
+.sbio__ln {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.35rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--flow);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--flow) 35%, transparent);
+  padding-bottom: 0.2rem;
+  transition: border-color 260ms var(--ease);
+}
+.sbio__ln:hover { border-color: var(--flow); }
+
+.sbio__body > * + * { margin-top: 1.15em; }
+.sbio__body p { max-width: var(--measure); color: var(--graphite); }
+.sbio__body .lead { color: var(--graphite); }
+
+.sbio__h {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--flow);
+  padding-top: 2.25rem;
+  margin-top: 2.25rem !important;
+  border-top: var(--rule);
+}
+.sbio__body > .sbio__h:first-child { padding-top: 0; margin-top: 0 !important; border-top: 0; }
+
+.sbio__list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem !important;
+  max-width: 74ch;
+}
+.sbio__list li {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-block: 0.4rem;
+  font-size: var(--t-small);
+  color: var(--graphite);
+  border-bottom: 1px dashed color-mix(in srgb, var(--stone) 70%, transparent);
+}
+.sbio__list li:last-child { border-bottom: 0; }
+.sbio__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.05em;
+  width: 0.6rem;
+  height: 1px;
+  background: var(--flow);
+}
+.sbio__list li strong { color: var(--ink); font-weight: 600; }
+
+/* Back link and prev/next rail */
+.sback {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--mist);
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: color 240ms var(--ease);
+}
+.sback:hover { color: var(--flow-lift); }
+
+.snav {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr;
+  border-top: var(--rule);
+}
+@media (min-width: 720px) { .snav { grid-template-columns: 1fr 1fr; } }
+.snav__item {
+  display: block;
+  padding: 1.75rem 0;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: var(--rule);
+}
+@media (min-width: 720px) {
+  .snav__item + .snav__item { padding-left: clamp(1.5rem, 3vw, 3rem); text-align: right; }
+}
+.snav__dir {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.snav__name {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--display);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  transition: color 240ms var(--ease);
+}
+.snav__item:hover .snav__name { color: var(--flow); }
+
+@media (prefers-reduced-motion: reduce) {
+  .scard__img, .scard__frame::after { transition: none; }
+}
